@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolDumpWebsiteCode | ModZ Team</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-main: #02040F;
+    --bg-gradient: radial-gradient(circle at 0% 0%, #121833 0%, #050714 40%, #02040F 100%);
+    --bg-panel: rgba(15, 19, 36, 0.75);
+    --bg-card: rgba(22, 27, 48, 0.85);
+    --border: rgba(79, 70, 229, 0.2);
+    --border-hover: rgba(124, 58, 237, 0.5);
+    --accent: #7C3AED;
+    --accent-light: #A5B4FC;
+    --accent-glow: rgba(124, 58, 237, 0.35);
+    --success: #10B981;
+    --success-glow: rgba(16, 185, 129, 0.25);
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --text-main: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.15);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.2);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.25);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Fira Code', 'JetBrains Mono', monospace;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    line-height: 1.7;
+    padding: 24px 16px;
+}
+
+.container {
+    max-width: 1420px;
+    margin: 0 auto;
+}
+
+.header {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    backdrop-filter: blur(16px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.header-main h1 {
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    background: linear-gradient(90deg, #C084FC, #60A5FA, #34D399);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    text-shadow: 0 0 25px var(--accent-glow);
+    margin-bottom: 6px;
+}
+
+.header-main p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 550px;
+}
+
+.intro-team {
+    background: rgba(39, 46, 75, 0.6);
+    border-radius: 16px;
+    padding: 16px 20px;
+    border-left: 4px solid var(--accent);
+    box-shadow: var(--shadow-sm);
+    min-width: 260px;
+}
+
+.intro-team h4 {
+    color: var(--accent-light);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.intro-team p {
+    font-size: 0.85rem;
+    color: #CBD5E1;
+    line-height: 1.8;
+}
+
+.input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+#urlInput {
+    flex: 1;
+    min-width: 320px;
+    height: 60px;
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 0 24px;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+#urlInput:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15), var(--shadow-glow);
+    transform: translateY(-1px);
+}
+
+.btn {
+    height: 60px;
+    border: none;
+    border-radius: 18px;
+    padding: 0 28px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.28s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent), #6D28D9);
+    color: white;
+    box-shadow: 0 4px 18px rgba(124, 58, 237, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: rgba(30, 37, 64, 0.9);
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 28px;
+}
+
+@media (max-width: 992px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 26px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-lg);
+    transition: border-color 0.3s ease;
+}
+
+.panel:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.panel-header h2 {
+    font-size: 1.4rem;
+    color: var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.badge {
+    background: rgba(39, 46, 75, 0.7);
+    padding: 6px 14px;
+    border-radius: 22px;
+    font-size: 0.8rem;
+    color: #CBD5E1;
+    font-weight: 600;
+}
+
+.queue-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.queue-controls button {
+    background: rgba(15, 19, 36, 0.8);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.queue-controls button:hover {
+    background: rgba(30, 37, 64, 0.9);
+    color: var(--text-main);
+    border-color: var(--accent);
+}
+
+.queue-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.queue-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.queue-list::-webkit-scrollbar-track {
+    background: rgba(15, 19, 36, 0.5);
+    border-radius: 4px;
+}
+
+.queue-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--accent), #4F46E5);
+    border-radius: 4px;
+}
+
+.queue-list::-webkit-scrollbar-thumb:hover {
+    background: #6D28D9;
+}
+
+.queue-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+    transition: all 0.28s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.queue-item:hover {
+    border-color: var(--border-hover);
+    background: rgba(26, 32, 58, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+}
+
+.item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-url {
+    font-size: 0.9rem;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-main);
+}
+
+.status {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.status-done { background: rgba(16, 185, 129, 0.18); color: var(--success); }
+.status-fail { background: rgba(239, 68, 68, 0.18); color: var(--danger); }
+.status-pending { background: rgba(245, 158, 11, 0.18); color: var(--warning); }
+
+.item-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.item-actions button {
+    border: none;
+    border-radius: 10px;
+    padding: 5px 11px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-view { background: rgba(59, 130, 246, 0.18); color: #60A5FA; }
+.btn-view:hover { background: rgba(59, 130, 246, 0.3); transform: scale(1.05); }
+
+.btn-dl { background: rgba(16, 185, 129, 0.18); color: #34D399; }
+.btn-dl:hover { background: rgba(16, 185, 129, 0.3); transform: scale(1.05); }
+
+.btn-del { background: rgba(239, 68, 68, 0.18); color: #F87171; }
+.btn-del:hover { background: rgba(239, 68, 68, 0.3); transform: scale(1.05); }
+
+#previewArea {
+    flex: 1;
+    background: rgba(8, 11, 24, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    color: #E2E8F0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    overflow-y: auto;
+    line-height: 1.6;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+}
+
+#downloadZip {
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(135deg, #059669, var(--success));
+    color: #022C22;
+    font-weight: 700;
+    border: none;
+    border-radius: 18px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.28s ease;
+    box-shadow: 0 4px 16px var(--success-glow);
+    font-size: 1.05rem;
+}
+
+#downloadZip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px var(--success-glow);
+    filter: brightness(1.1);
+}
+
+.status-bar {
+    margin-top: 28px;
+    padding: 16px 24px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-md);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="header-main">
+            <h1>⚡💻🔓[FastDumpSourceWebsite]<h1>
+            <p>ToolDumpWebsiteCode Does not bypass CAPTCHA.
+            <h6>[tool category:DumpSource•Website]</h6></p>
+        </div>
+        <div class="intro-team">
+            <h4>👥 Thông tin thành viên Đóng góp</h4>
+            <p>• <strong>ModZ</strong> : Trưởng dự án, xây dựng lõi hệ thống & giao diện – 50%+</p>
+            <p>• <strong>Semmizen</strong> : Tối ưu tốc độ, xử lý proxy & lỗi – 20%+</p>
+            <p>• <strong>MoeDrStyle</strong> : Kiểm thử, cải thiện tính tương thích – 20%-</p>
+            <p>• <strong>Dola[AI]</strong> : Hỗ trợ lập trình, tối ưu mã & tư vấn phát triển – 10%+</p>
+            <p style="margin-top:8px; font-style:italic;">Dola là trợ lý AI chuyên về lập trình, hỗ trợ tạo ra các công cụ mạnh mẽ, ổn định và dễ sử dụng cho cộng đồng.</p>
+          
+            <p>linkWebside(DumpSource MzSnMeDola)
+             <strong> https://ezingModZ.github.io/DumpWesite.Tool</strong></p>
+            <p><strong>⚠️ Does not bypass CAPTCHA </strong></p>
+        </div>
+    </header>
+
+    <div class="input-row">
+        <input type="text" id="urlInput" placeholder="UrlWebsite...">
+        <button class="btn btn-primary" id="dumpBtn">DUMP</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+    </div>
+
+    <div class="main-grid">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>📋 Danh sách xử lý</h2>
+                <span class="badge" id="queueCount">0 mục</span>
+            </div>
+            <div class="queue-controls">
+                <button id="selectAll">☑ Chọn tất cả</button>
+                <button id="clearSelected">🗑 Xóa đã chọn</button>
+            </div>
+            <div class="queue-list" id="queueList">
+                <div style="text-align:center; color:#64748B; padding:50px 20px;">Chưa có URL nào được thêm</div>
+            </div>
+            <button id="downloadZip">📦 Zip fileName</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>📄 Nội dung mã nguồn</h2>
+                <button class="btn btn-secondary" id="copyBtn">📋 Sao chép</button>
+            </div>
+            <textarea id="previewArea" readonly>SourceCode...</textarea>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">✅ Sẵn sàng hoạt động | ToolDump Pro v3.0</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script>
+let queue = [];
+const SIGNATURE = `/*
+================================================
+-----------------------------ToolDump By ModZ------------------------------
+================================================
+- Created by ModZ Team
+_Đóng góp chi tiết:
+_ModZ        : 50%+ - Trưởng dự án, xây dựng lõi chính
+_Semmizen    : 20%+ - Tối ưu hệ thống, xử lý kết nối
+_MoeDrStyle  : 20%- - Kiểm thử, cải thiện giao diện
+_Dola[AI]    : 10%+ - Hỗ trợ lập trình, tối ưu mã nguồn
+
+• Dola là trợ lý AI chuyên về công nghệ, lập trình và phát triển công cụ.
+• Được phát triển dành cho cộng đồng, tập trung vào sự ổn định và dễ sử dụng.
+<https://ezingModZ.github.io/DumpWesite.Tool>
+tool category: DumpSource•Website
+================================================
+*/
+
+`;
+
+function getDateTimeString() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const h = String(now.getHours()).padStart(2, '0');
+    const mi = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    return `${y}${m}${d}_${h}${mi}${s}`;
+}
+
+function formatSize(bytes) {
+    if (!bytes) return '?';
+    return bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+}
+
+function getDomain(url) {
+    try {
+        return new URL(url).hostname.replace(/^www\./, '').replace(/\W/g, '_');
+    } catch {
+        return 'unknown_site';
+    }
+}
+
+async function fetchWithProxy(url) {
+    const proxies = [
+        `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        `https://cors-anywhere.herokuapp.com/${url}`
+    ];
+    for (const p of proxies) {
+        try {
+            const res = await fetch(p, { signal: AbortSignal.timeout(18000) });
+            if (res.ok) return await res.text();
+        } catch (e) { continue; }
+    }
+    throw new Error('Không thể truy cập, bị chặn hoặc không tồn tại');
+}
+
+function renderQueue() {
+    const container = document.getElementById('queueList');
+    const countEl = document.getElementById('queueCount');
+    countEl.textContent = `${queue.length} mục`;
+    if (!queue.length) {
+        container.innerHTML = `<div style="text-align:center; color:#64748B; padding:50px 20px;">Chưa có URL nào được thêm</div>`;
+        return;
+    }
+    container.innerHTML = queue.map((item, idx) => `
+        <div class="queue-item">
+            <div class="item-top">
+                <div class="item-info">
+                    <input type="checkbox" class="item-checkbox" data-idx="${idx}">
+                    <span class="item-url">${item.url}</span>
+                </div>
+                <span class="status ${item.status === 'done' ? 'status-done' : item.status === 'fail' ? 'status-fail' : 'status-pending'}">
+                    ${item.status === 'done' ? 'Hoàn thành' : item.status === 'fail' ? 'Thất bại' : 'Đang xử lý'}
+                </span>
+            </div>
+            <div class="item-bottom">
+                <span>Kích thước: ${formatSize(item.size)}</span>
+                <div class="item-actions">
+                    <button class="btn-view" onclick="viewItem(${idx})">Xem</button>
+                    <button class="btn-dl" onclick="downloadItem(${idx})">Tải</button>
+                    <button class="btn-del" onclick="removeItem(${idx})">Xóa</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function dumpSingle(idx) {
+    const item = queue[idx];
+    item.status = 'loading';
+    renderQueue();
+    updateStatus(`Load...${item.url}`);
+    try {
+        const rawContent = await fetchWithProxy(item.url);
+        const contentWithSignature = SIGNATURE + rawContent;
+        item.content = contentWithSignature;
+        item.size = new Blob([contentWithSignature]).size;
+        item.status = 'done';
+        updateStatus(`SUCCESS ${item.url} | ${formatSize(item.size)}`);
+    } catch (err) {
+        item.status = 'fail';
+        item.content = `/* LỖI: ${err.message} */`;
+        item.size = 0;
+        updateStatus(`Fail ${item.url}`);
+    }
+    renderQueue();
+}
+
+function extractUrls(str) {
+    return [...new Set(str.match(/https?:\/\/[^\s<>"']+/g) || [])];
+}
+
+async function startDump() {
+    const inputVal = document.getElementById('urlInput').value.trim();
+    const urls = extractUrls(inputVal);
+    if (!urls.length) {
+        updateStatus('⚠️ Không tìm thấy URL hợp lệ');
+        return;
+    }
+    urls.forEach(url => {
+        if (!queue.some(i => i.url === url)) {
+            queue.push({ url, content: null, size: null, status: 'pending' });
+        }
+    });
+    renderQueue();
+    for (let i = 0; i < queue.length; i++) {
+        if (queue[i].status === 'pending') await dumpSingle(i);
+    }
+}
+
+function viewItem(idx) {
+    const item = queue[idx];
+    document.getElementById('previewArea').value = item.content || 'Chưa có dữ liệu';
+}
+
+function downloadItem(idx) {
+    const item = queue[idx];
+    if (!item.content) return;
+    const domain = getDomain(item.url);
+    const fileName = `Source.MRD_${domain}.txt`;
+    const blob = new Blob([item.content], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    updateStatus(`💾 Đã tải: ${fileName}`);
+}
+
+async function downloadAllAsZip() {
+    const validItems = queue.filter(i => i.status === 'done' && i.content);
+    if (!validItems.length) {
+        updateStatus('⚠️ Không có dữ liệu hợp lệ để tải');
+        return;
+    }
+    const zip = new JSZip();
+    validItems.forEach(item => {
+        const domain = getDomain(item.url);
+        zip.file(`Source.MRD_${domain}.txt`, item.content);
+    });
+    const dateStr = getDateTimeString();
+    const fileName = `ToolDump.${dateStr}.zip`;
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    updateStatus(`📦 Đã tạo ZIP: ${fileName}`);
+}
+
+function removeItem(idx) {
+    queue.splice(idx, 1);
+    renderQueue();
+}
+
+function clearAll() {
+    if (queue.length && confirm('Xóa toàn bộ danh sách?')) {
+        queue = [];
+        document.getElementById('previewArea').value = '// Nhập URL và bấm "Dump Ngay" để xem kết quả\n// Mã sẽ được thêm chữ ký đầy đủ tự động ở đầu mỗi file';
+        renderQueue();
+        updateStatus('🗑 Đã xóa tất cả');
+    }
+}
+
+function copyContent() {
+    const text = document.getElementById('previewArea').value;
+    if (!text.trim()) return;
+    navigator.clipboard.writeText(text).then(() => updateStatus('📋 Đã sao chép nội dung thành công'));
+}
+
+function updateStatus(msg) {
+    const bar = document.getElementById('statusBar');
+    bar.textContent = msg;
+    setTimeout(() => bar.textContent = '✅ Sẵn sàng hoạt động | ToolDump V3.0', 4500);
+}
+
+document.getElementById('dumpBtn').addEventListener('click', startDump);
+document.getElementById('resetBtn').addEventListener('click', clearAll);
+document.getElementById('copyBtn').addEventListener('click', copyContent);
+document.getElementById('downloadZip').addEventListener('click', downloadAllAsZip);
+document.getElementById('selectAll').addEventListener('click', () => {
+    document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = true);
+});
+document.getElementById('clearSelected').addEventListener('click', () => {
+    const indices = [...document.querySelectorAll('.item-checkbox:checked')].map(cb => parseInt(cb.dataset.idx)).sort((a, b) => b - a);
+    indices.forEach(i => queue.splice(i, 1));
+    renderQueue();
+});
+</script>
+</body>
+</html>
